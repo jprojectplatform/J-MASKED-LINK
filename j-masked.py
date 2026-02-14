@@ -6,6 +6,7 @@ import webbrowser
 import threading
 from urllib.parse import quote
 import time
+import platform
 
 class JMaskedLink:
     def __init__(self, root):
@@ -56,26 +57,45 @@ class JMaskedLink:
         self.apply_theme()
         
     def create_widgets(self):
-        """Create all GUI widgets"""
-        # Create main frame with scrollbar
+        """Create all GUI widgets with Enhanced Scrolling"""
+        # Create main frame
         self.main_frame = ttk.Frame(self.root)
         self.main_frame.pack(fill='both', expand=True)
         
-        # Create canvas and scrollbar for entire app
+        # Create canvas
         self.canvas = tk.Canvas(self.main_frame, bg=self.current_theme['bg'], highlightthickness=0)
         self.scrollbar = ttk.Scrollbar(self.main_frame, orient="vertical", command=self.canvas.yview)
+        
+        # Create the scrollable frame
         self.scrollable_frame = ttk.Frame(self.canvas)
         
-        self.scrollable_frame.bind(
-            "<Configure>",
-            lambda e: self.canvas.configure(scrollregion=self.canvas.bbox("all"))
+        # --- IMPROVED SCROLLING LOGIC ---
+        
+        # 1. Window Creation: Store the ID to resize it later
+        self.canvas_window = self.canvas.create_window(
+            (0, 0), 
+            window=self.scrollable_frame, 
+            anchor="nw"
         )
         
-        self.canvas.create_window((0, 0), window=self.scrollable_frame, anchor="nw")
+        # 2. Update scroll region when the inner frame changes size
+        self.scrollable_frame.bind(
+            "<Configure>",
+            self._on_frame_configure
+        )
+        
+        # 3. Update inner frame width when the canvas changes size (Responsive UI)
+        self.canvas.bind(
+            "<Configure>",
+            self._on_canvas_configure
+        )
+        
         self.canvas.configure(yscrollcommand=self.scrollbar.set)
         
-        # Bind mouse wheel to scroll
-        self.canvas.bind("<MouseWheel>", self._on_mousewheel)
+        # 4. Global Mousewheel Binding (Works over buttons/entries too)
+        self.root.bind_all("<MouseWheel>", self._on_mousewheel)  # Windows/macOS
+        self.root.bind_all("<Button-4>", self._on_mousewheel)    # Linux Up
+        self.root.bind_all("<Button-5>", self._on_mousewheel)    # Linux Down
         
         # Header
         self.header_frame = ttk.Frame(self.scrollable_frame, padding="30")
@@ -186,9 +206,36 @@ class JMaskedLink:
         # Initialize shortener frames after layout is set
         self.initialize_shortener_frames()
     
+    # --- NEW SCROLLING HELPER METHODS ---
+
+    def _on_frame_configure(self, event):
+        """Reset the scroll region to encompass the inner frame"""
+        self.canvas.configure(scrollregion=self.canvas.bbox("all"))
+
+    def _on_canvas_configure(self, event):
+        """Resize the inner frame to match the canvas width"""
+        self.canvas.itemconfig(self.canvas_window, width=event.width)
+
     def _on_mousewheel(self, event):
-        self.canvas.yview_scroll(int(-1*(event.delta/120)), "units")
+        """Cross-platform mousewheel scrolling"""
+        # Determine scroll direction
+        if platform.system() == 'Linux':
+            if event.num == 4:
+                delta = -1
+            elif event.num == 5:
+                delta = 1
+            else:
+                delta = 0
+        else:
+            # Windows/MacOS
+            delta = int(-1 * (event.delta / 120))
+        
+        # Only scroll if scroll region is larger than window
+        if self.canvas.bbox("all")[3] > self.canvas.winfo_height():
+            self.canvas.yview_scroll(delta, "units")
     
+    # --- END SCROLLING METHODS ---
+
     def toggle_theme(self):
         """Toggle between dark and light mode"""
         self.dark_mode = not self.dark_mode
@@ -349,9 +396,6 @@ class JMaskedLink:
         grid_frame.columnconfigure(1, weight=1)
         for i in range((len(shorteners) + 1) // 2):
             grid_frame.rowconfigure(i, weight=1)
-
-    # ... (keep all the other methods exactly the same as before - validate_phishing_url, generate_all_masked_links, etc.)
-    # The rest of your methods remain unchanged - just copy them from your previous code
 
     def validate_phishing_url(self, url):
         """Validate the phishing URL"""
