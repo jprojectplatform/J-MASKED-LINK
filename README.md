@@ -49,7 +49,7 @@ A sophisticated and professional URL masking application that generates secure, 
 
 ## 📦 Installation
 
-### Method 1: Python Script (Recommended for Developers)
+### STEP 1: Python Script
 #### Prerequisites
 - Python 3.8 or higher
 - pip (Python package manager)
@@ -63,6 +63,8 @@ A sophisticated and professional URL masking application that generates secure, 
 
 2. **Install Dependencies**
    ```bash
+   python3 -m venv j-masked-env
+   source j-masked-env/bin/activate
    pip install -r requirements.txt
    ```
 
@@ -71,29 +73,14 @@ A sophisticated and professional URL masking application that generates secure, 
    python j-masked.py
    ```
 
-### Method 2: Standalone Executable (Using J-Wrapper)
-For users who prefer a ready-to-use executable without Python installation:
+### STEP 2: Using J-Wrapper For run on anywhere on your Termanal
 
-1. **Download Pre-built Executable**
-   - Visit [J-Wrapper Releases](https://github.com/jprojectplatform/J-Wrapper/releases)
-   - Download the latest `J-Masked-Link.exe`
-   - Run directly - no installation required
 
-2. **Build Your Own Executable**
-   ```bash
-   # Clone J-Wrapper
-   git clone https://github.com/jprojectplatform/J-Wrapper.git
-   
-   # Build J Masked Link
-   python j-wrapper.py --input j-masked.py --output J-Masked-Link.exe --icon icon.ico
-   ```
+ **Download Pre-built Executable**
+   - Visit [J-Wrapper Releases](https://github.com/jprojectplatform/J-Wrapper/)
+   - Download the tool 
+   - See how to use and apply on J-MASKED-LINK
 
-#### J-Wrapper Benefits
-- ✅ **No Python Required** - Runs on any Windows machine
-- ✅ **Single Executable** - No dependencies or installation
-- ✅ **Anti-Virus Friendly** - Clean reputation with major AV vendors
-- ✅ **Portable** - Can run from USB drives
-- ✅ **Fast Startup** - Optimized loading times
 
 ### Dependencies
 The following packages are automatically installed:
@@ -149,18 +136,12 @@ J-MASKED-LINK/
 ├── requirements.txt     # Python dependencies
 ├── README.md           # This documentation
 ├── LICENSE.md          # License information
-└── build/              # J-Wrapper executable builds
-    └── J-Masked-Link.exe
+
 ```
 
 ### J-Wrapper Integration
-This project is fully compatible with **[J-Wrapper](https://github.com/jprojectplatform/J-Wrapper)** - our advanced Python to EXE converter that provides:
+This project is fully compatible with **[J-Wrapper](https://github.com/jprojectplatform/J-Wrapper)** 
 
-- **Smart Dependency Detection** - Automatically includes required packages
-- **Size Optimization** - Compresses Python interpreter and libraries
-- **Windows Compatibility** - Works on Windows 7, 8, 10, and 11
-- **Clean Exit Handling** - Proper application termination
-- **No Temporary Files** - Runs entirely in memory
 
 ### Key Components
 - **JMaskedLink Class**: Main application controller
@@ -270,7 +251,7 @@ This project is licensed under the J Project License (JPL) - see the [LICENSE](L
 
 - **Website**: [J Project Platform](https://jprojectplatform.com)
 - **GitHub**: [jprojectplatform](https://github.com/jprojectplatform)
-- **J-Wrapper**: [Python to EXE Converter](https://github.com/jprojectplatform/J-Wrapper)
+- **J-Wrapper**: [Run Anywhere from Terminal](https://github.com/jprojectplatform/J-Wrapper)
 - **More Tools**: Explore our other security and utility applications
 
 ---
@@ -317,26 +298,15 @@ This tool is intended for:
 
 ---
 
-## 🔄 Version History
 
-- **v1.0.0** (Current)
-  - Initial release with 8 URL shortening services
-  - Dark/Light theme support
-  - J-Wrapper executable compatibility
-  - Advanced URL masking features
-
----
 
 <div align="center">
 
 ### ⭐ Star us on GitHub if you find this project useful!
 
-**Choose Your Installation Method:**
-<br>
-[🐍 **Python Script**] | [⚡ **J-Wrapper EXE**](https://github.com/jprojectplatform/J-Wrapper)
 
 **Made with ❤️ by J Project Platform**
 
-*Part of the J Project ecosystem - Professional tools for modern needs*
+*Hands With Universal Technology*
 
 </div>
